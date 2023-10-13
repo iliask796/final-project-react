@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# Final Project (Oct. 12 - Oct 31)
+This is going to serve as a planning reference for my project. I am planning to work on a **Project
+Management Tool**. I am going to build a Spring Boot Application that will implement an API which will get data from a mySQL Local Server and provide them to my React App to display.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Core Functionality > Front-end: React App
+I am going to focus first on building some core aspects of the project and if these are done and 
+there is still time left, then I will move on into extending this functionality. My first focus is
+to be able to have a user create a workspace where he can organise the progress of his project using task lists and tasks.
 
-## Available Scripts
+### Front-End
+The primary focus will be to develop a user interface that will resemble the looks and some of the
+core functionality of a tool like Hive.
+<br> <br>
+![hive-example-img](assets/Hive-status-view-board-example-1400x646.png) 
+<br><br>
+Alternatively some of the UI or functionality can also resemble a tool like Teamwork.
+<br><br>
+![teamwork-example-img](assets/Teamwork-Board-View-Content-Dashboard-Example.png)
+<br><br>
+If there is plenty of time the desired end-goal could be something that resembles a tool like Trello.
+<br><br>
+![trello-example-img](assets/trello-1-1400x951.png)
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Plan with Trello
+I am going to use Trello to manage the progress of my project. This way I can be more organised about the planning process and at the same time experiment live with a tool similar to what I am developing.
+<br><br>
+Example:
+![hive-in-action-img](assets/Trello-Live-Example.png)
