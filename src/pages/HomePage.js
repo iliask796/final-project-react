@@ -1,10 +1,11 @@
 import React from 'react'
-import HomeHeader from '../components//Headers/HomeHeader'
+import DefaultHeader from '../components/Headers/DefaultHeader'
+import LoginIcon from '@mui/icons-material/Login';
 
 const HomePage = () => {
     return (
         <>
-            <HomeHeader/>
+            <DefaultHeader name={"Login"} icon={<LoginIcon />}/>
         </>
     )
 }

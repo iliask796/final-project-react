@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import TextField from '@mui/material/TextField';
@@ -38,9 +37,8 @@ const WorkspaceInfo = (props) => {
                 }
             </Paper>
             <div className='project-date'>
-                <Typography variant='h6'>Due Date:</Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker defaultValue={dayjs(props.date)} className='project-date-box'/>
+                    <DatePicker label={"Due Date"} defaultValue={dayjs(props.date)} className='project-date-box'/>
                 </LocalizationProvider>
             </div>
         </div>
