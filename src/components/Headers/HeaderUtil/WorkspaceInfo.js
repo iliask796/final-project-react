@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import TextField from '@mui/material/TextField';
@@ -29,16 +30,25 @@ const WorkspaceInfo = (props) => {
                 <TextField component="form" variant="outlined" defaultValue={props.title} disabled={textLock} size='Normal' onSubmit={handleEditDone} className='project-name-info'/>
                 {
                     !editMode &&
-                        <EditIcon className='project-name-action' onClick={handleEditStart}/>
+                        <IconButton edge="end" aria-label="edit" sx={{m:0.5}} className='project-name-action'>
+                            <EditIcon onClick={handleEditStart}/>
+                        </IconButton>
                 }
                 {
                     editMode &&
-                        <DoneIcon className='project-name-action' onClick={handleEditDone}/>
+                        <IconButton edge="end" aria-label="edit" sx={{m:0.5}} className='project-name-action'>
+                            <DoneIcon onClick={handleEditDone}/>
+                        </IconButton>
                 }
             </Paper>
             <div className='project-date'>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker label={"Due Date"} defaultValue={dayjs(props.date)} className='project-date-box'/>
+                    <DatePicker 
+                        label={"Due Date"} 
+                        defaultValue={dayjs(props.date)} 
+                        className='project-date-box'
+                        sx = {{svg: {color: '#0F52BA'}}}
+                    />
                 </LocalizationProvider>
             </div>
         </div>
