@@ -14,7 +14,20 @@
     gap: 20px;
 }
 
-.workspace > .list-container > .list {
+.workspace > .list-container > .list-container-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.workspace > .list-container > .list-container-column > .list-clear {
+    color: #f5f5f5;
+    background-color: #00A36C;
+}
+
+.workspace > .list-container > .list-container-column > .list {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,7 +38,7 @@
     border-radius: 15px;
 }
 
-.workspace > .list-container > .list > .list-header {
+.workspace > .list-container > .list-container-column > .list > .list-header {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -34,24 +47,24 @@
     width: 225px;
 }
 
-.workspace > .list-container > .list > .list-header > .header-text {
+.workspace > .list-container > .list-container-column > .list > .list-header > .header-text {
     width: 140px;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
 
-.workspace > .list-container > .list > .list-item > .list-item-text {
+.workspace > .list-container > .list-container-column > .list > .list-item > .list-item-text {
     margin-right: 20px;
     cursor: pointer;
 }
 
-.workspace > .list-container > .list > .list-item-add {
+.workspace > .list-container > .list-container-column> .list > .list-item-add {
     place-self: center;
     color: #f5f5f5;
     background-color: #4682B4;
 }
 
 .workspace > .list-container > .list-add {
-    place-self: center;
+    margin-top: 10px;
     color: #f5f5f5;
     background-color: #4682B4;
 }
