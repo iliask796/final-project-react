@@ -1,0 +1,57 @@
+.workspace {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin: 20px 0 0 20px;
+}
+
+.workspace > .list-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: fit-content;
+    height: fit-content;
+    gap: 20px;
+}
+
+.workspace > .list-container > .list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0 10px 0;
+    background-color: #f5f5f5;
+    border: 1px solid #4682B4;
+    border-radius: 15px;
+}
+
+.workspace > .list-container > .list > .list-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 225px;
+}
+
+.workspace > .list-container > .list > .list-header > .header-text {
+    width: 140px;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+
+.workspace > .list-container > .list > .list-item > .list-item-text {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.workspace > .list-container > .list > .list-item-add {
+    place-self: center;
+    color: #f5f5f5;
+    background-color: #4682B4;
+}
+
+.workspace > .list-container > .list-add {
+    place-self: center;
+    color: #f5f5f5;
+    background-color: #4682B4;
+}
