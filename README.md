@@ -29,7 +29,9 @@ Example:
 
 ### Styling Guide
 The design of the page is going to use the following colour pallete:
+
 - Whitesmoke: #F5F5F5
 - Pastel Blue: #A7C7E7
 - Steel Blue: #4682B4
 - Sapphire: #0F52BA
+- Jade: #00A36C
