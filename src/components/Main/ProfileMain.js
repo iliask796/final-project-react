@@ -41,7 +41,7 @@ const ProfileMain = (props) => {
                         className='my-info-text'
                     />
                     <Typography variant='h6' className='my-info-extra'>Note: Email cannot be changed.</Typography>
-                    <Button type="submit" variant="contained" size="large" className='my-info-action'>Submit</Button>
+                    <Button type="submit" variant="contained" size="large" className='my-info-action'>Save</Button>
                 </form>
             </div>
         </div>
