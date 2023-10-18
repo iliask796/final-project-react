@@ -1,10 +1,10 @@
 import React from 'react'
 import '../../stylesheets/main.css'
 import { Typography } from '@mui/material'
-import Image1 from '../../utility/images/home-image-1.png'
-import Image2 from '../../utility/images/home-image-2.png'
-import Image3 from '../../utility/images/home-image-3.png'
-import Image4 from '../../utility/images/home-image-4.png'
+import Image1 from '../../utility/images/home-image-1.jpg'
+import Image2 from '../../utility/images/home-image-2.jpg'
+import Image3 from '../../utility/images/home-image-3.jpg'
+import Image4 from '../../utility/images/home-image-4.jpg'
 
 const HomeMain = () => {
     return (
