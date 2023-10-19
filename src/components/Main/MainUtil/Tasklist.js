@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 
 import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
@@ -10,30 +10,28 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Task from './Task';
 
 const Tasklist = (props) => {
-    const {id, title} = props.item
+    const {tasklistId, name} = props.list
+    const [tasks, setTasks] = useState(null)
 
-    const listItem = [
-        {
-            id: 1,
-            title: 'First List Item',
-            description: 'a'
-        },
-        {
-            id: 2,
-            title: 'Second List Item',
-            description: 'b'
-        },
-        {
-            id: 3,
-            title: 'Third List Item',
-            description: null
+    async function getTasks() {
+        const url = 'http://localhost:4000/tasklists/'+ tasklistId +'/tasks'
+        const response = await fetch(url)
+        const json = await response.json()
+        if (json.status === 'success'){
+            setTasks(json.data)
         }
-    ]
+    }
+
+    useEffect(() => {
+        if (tasklistId != null){
+            getTasks()
+        }
+    },[])
 
     return (
         <div className='list-container-column'>
             <List 
-                key={id}
+                key={tasklistId}
                 className='list'
                 subheader={
                     <div className='list-header'>
@@ -41,7 +39,7 @@ const Tasklist = (props) => {
                             className='header-text'
                             variant="standard" 
                             inputProps={{style: { textAlign: 'center', fontSize: 18 }}}
-                            defaultValue={title}
+                            defaultValue={name}
                         />
                         <IconButton edge="end" aria-label="shift-left">
                                 <NavigateBeforeIcon fontSize='small'/>
@@ -53,8 +51,9 @@ const Tasklist = (props) => {
                 }
             >
                 {
-                    listItem.map((item) =>{
-                        return <Task key={item.id} item={item}/>
+                    tasks &&
+                    tasks.map((task) =>{
+                        return <Task key={task.taskId} task={task}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list-item" className='list-item-add'>

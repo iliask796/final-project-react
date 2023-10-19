@@ -10,6 +10,7 @@ function App() {
   const [user, setUser] = useState(null)
   const [userLoad, setUserLoad] = useState(false)
   const [workspace, setWorkspace] = useState(null)
+  const [tasklists, setTasklists] = useState(null)
 
   async function getUser() {
     const response = await fetch('http://localhost:4000/users/1')
@@ -20,12 +21,18 @@ function App() {
     }
   }
 
-  async function getWorkspace() {
+  async function getWorkspaceData() {
     const url = 'http://localhost:4000/workspaces/' + user.workspace.workspaceId
     const response = await fetch(url)
     const json = await response.json()
     if (json.status === 'success'){
       setWorkspace(json.data)
+    }
+    const url2 = 'http://localhost:4000/workspaces/' + user.workspace.workspaceId + '/tasklists'
+    const response2 = await fetch(url2)
+    const json2 = await response2.json()
+    if (json2.status === 'success'){
+      setTasklists(json2.data)
     }
   }
 
@@ -34,14 +41,14 @@ function App() {
   },[])
 
   useEffect(() => {
-    if (user!== null){
-      getWorkspace()
+    if (userLoad){
+      getWorkspaceData()
     }
   },[userLoad])
 
   return (
     <div className='app'>
-      <DataContext.Provider value = {{ user, workspace }}>
+      <DataContext.Provider value = {{ user, workspace, tasklists }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/workspace" element={<Workspace />} />

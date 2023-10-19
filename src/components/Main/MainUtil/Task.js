@@ -13,7 +13,7 @@ import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 
 const Task = (props) => {
-    const {id, title, description} = props.item;
+    const {taskId, name, description} = props.task;
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -35,7 +35,7 @@ const Task = (props) => {
     return (
         <>
             <ListItem 
-                key={id}
+                key={taskId}
                 className='list-item'
                 secondaryAction={
                     <>
@@ -49,7 +49,7 @@ const Task = (props) => {
                 }
             >
                 <ListItemText
-                    primary={title}
+                    primary={name}
                     secondary= {
                         description ?
                         <SpeakerNotesIcon fontSize='small' /> :
@@ -74,7 +74,7 @@ const Task = (props) => {
                 }}
             >
                 <Paper elevation={3} sx={{p: 1}}>
-                    <TextField id="outlined-basic-1" label="Title" defaultValue={title} variant="outlined" sx={{m:0.5}}/>
+                    <TextField id="outlined-basic-1" label="Title" defaultValue={name} variant="outlined" sx={{m:0.5}}/>
                     <TextField id="outlined-basic-2" label="Description" defaultValue={description} variant="outlined" sx={{m:0.5}}/>
                     <Fab onClick={handleDelete} color='success' variant='extended' aria-label="delete" sx={{m:0.5, backgroundColor: "#00A36C"}}>
                         Delete

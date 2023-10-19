@@ -1,32 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../../stylesheets/workspace.css'
 
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import Tasklist from './MainUtil/Tasklist';
+import DataContext from '../../DataContext';
 
 const WorkspaceMain = () => {
-    const list = [
-        {
-            id: 1,
-            title: 'To-Do'
-        },
-        {
-            id: 2,
-            title: 'Doing'
-        },
-        {
-            id: 3,
-            title: 'Done'
-        }
-    ]
+    const { tasklists } = useContext(DataContext)
 
     return (
+        tasklists &&
         <div className='workspace'>
             <div className='list-container'>
                 {
-                    list.map((item) => {
-                        return <Tasklist key={item.id} item={item}/>
+                    tasklists.map((list) => {
+                        return <Tasklist key={list.tasklistId} list={list}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list" className='list-add'>
