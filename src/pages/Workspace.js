@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import WorkspaceHeader from '../components//Headers/WorkspaceHeader'
 import WorkspaceMain from '../components/Main/WorkspaceMain'
+import DataContext from '../DataContext'
 
 const Workspace = () => {
+    const { user, workspace } = useContext(DataContext)
+
     return (
+        workspace &&
         <>
-            <WorkspaceHeader projectName={"Project Management Tool"} dueDate={"10-31-2023"} displayname={"Ilias Kal"}/>
+            <WorkspaceHeader projectName={workspace.name} dueDate={workspace.dueDate} displayname={user.displayName}/>
             <WorkspaceMain />
         </>
     )
