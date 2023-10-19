@@ -26,7 +26,7 @@ const WorkspaceInfo = (props) => {
 
     return (
         <div className='workspace-info'>
-            <Paper className='project-name'>
+            <Paper className='project-name' sx={{p:0.75}}>
                 <TextField component="form" variant="outlined" defaultValue={props.title} disabled={textLock} size='Normal' onSubmit={handleEditDone} className='project-name-info'/>
                 {
                     !editMode &&
@@ -41,7 +41,7 @@ const WorkspaceInfo = (props) => {
                         </IconButton>
                 }
             </Paper>
-            <div className='project-date'>
+            <Paper className='project-date' sx={{p:0.75}}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker 
                         label={"Due Date"} 
@@ -50,7 +50,7 @@ const WorkspaceInfo = (props) => {
                         sx = {{svg: {color: '#0F52BA'}}}
                     />
                 </LocalizationProvider>
-            </div>
+            </Paper>
         </div>
     )
 }

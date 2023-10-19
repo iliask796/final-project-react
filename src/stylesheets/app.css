@@ -8,5 +8,5 @@
     grid-template-areas: 
     "header"
     "main";
-    grid-template-rows: 2fr 23fr;
+    grid-template-rows: 2fr 20fr;
 }
