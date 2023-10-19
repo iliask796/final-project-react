@@ -42,6 +42,7 @@
     background-color: #f5f5f5;
     border: 1.5px solid #0F52BA;
     border-radius: 15px;
+    width: 230px;
 }
 
 .workspace > .list-container > .list-container-column > .list > .list-header {
@@ -67,4 +68,5 @@
     place-self: center;
     color: #f5f5f5;
     background-color: #0F52BA;
+    margin-top: 10px;
 }

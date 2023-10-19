@@ -73,9 +73,9 @@ const Task = (props) => {
                     horizontal: 'left',
                 }}
             >
-                <Paper elevation={3} sx={{p: 1}}>
-                    <TextField id="outlined-basic-1" label="Title" defaultValue={name} variant="outlined" sx={{m:0.5}}/>
-                    <TextField id="outlined-basic-2" label="Description" defaultValue={description} variant="outlined" sx={{m:0.5}}/>
+                <Paper elevation={3} sx={{p: 1, display:'flex', alignItems: 'center', justifyContent:'center'}}>
+                    <TextField id="outlined-basic-1" label="Title" defaultValue={name} multiline variant="outlined" sx={{m:0.5}}/>
+                    <TextField id="outlined-basic-2" label="Description" defaultValue={description} multiline variant="outlined" sx={{m:0.5}}/>
                     <Fab onClick={handleDelete} color='success' variant='extended' aria-label="delete" sx={{m:0.5, backgroundColor: "#00A36C"}}>
                         Delete
                     </Fab>
