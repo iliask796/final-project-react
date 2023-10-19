@@ -19,11 +19,12 @@ function stringToColor(string) {
   }
   
   function stringAvatar(name) {
+    const letters = name.split(' ')
     return {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      children: (letters.length >= 2?`${letters[0][0]}${letters[1][0]}`:`${letters[0][0]}`),
     };
   }
 
