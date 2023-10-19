@@ -54,7 +54,7 @@ const Tasklist = (props) => {
             >
                 {
                     listItem.map((item) =>{
-                        return <Task item={item}/>
+                        return <Task key={item.id} item={item}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list-item" className='list-item-add'>

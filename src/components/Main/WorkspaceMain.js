@@ -26,7 +26,7 @@ const WorkspaceMain = () => {
             <div className='list-container'>
                 {
                     list.map((item) => {
-                        return <Tasklist item={item}/>
+                        return <Tasklist key={item.id} item={item}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list" className='list-add'>

@@ -30,14 +30,14 @@ const WorkspaceInfo = (props) => {
                 <TextField component="form" variant="outlined" defaultValue={props.title} disabled={textLock} size='Normal' onSubmit={handleEditDone} className='project-name-info'/>
                 {
                     !editMode &&
-                        <IconButton edge="end" aria-label="edit" sx={{m:0.5}} className='project-name-action'>
-                            <EditIcon onClick={handleEditStart}/>
+                        <IconButton onClick={handleEditStart} edge="end" aria-label="edit" sx={{m:0.5}} className='project-name-action'>
+                            <EditIcon />
                         </IconButton>
                 }
                 {
                     editMode &&
-                        <IconButton edge="end" aria-label="edit" sx={{m:0.5}} className='project-name-action'>
-                            <DoneIcon onClick={handleEditDone}/>
+                        <IconButton onClick={handleEditDone} edge="end" aria-label="edit" sx={{m:0.5}} className='project-name-action'>
+                            <DoneIcon />
                         </IconButton>
                 }
             </Paper>
