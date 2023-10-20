@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../stylesheets/profile.css'
 
 import stringAvatar from '../../utility/stringAvatar'
@@ -8,6 +8,21 @@ import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 
 const ProfileMain = (props) => {
+    const [displayName, setDisplayName] = useState(props.displayname)
+
+    const handleChange = (event) => {
+        setDisplayName(event.target.value)
+    }
+
+    const updateDisplayName = async () => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({email: props.email, password: props.password, displayName: displayName})
+        }
+        await fetch('http://localhost:4000/users/1', requestOptions)
+    }
+
     return (
         <div className='profile-main'>
             <div className='profile-tab'>
@@ -26,9 +41,11 @@ const ProfileMain = (props) => {
                     />
                     <TextField
                         fullWidth
-                        required
                         label="Password"
                         defaultValue={props.password}
+                        InputProps={{
+                            readOnly: true,
+                        }}
                         variant="standard"
                         className='my-info-text'
                     />
@@ -36,12 +53,13 @@ const ProfileMain = (props) => {
                         fullWidth
                         required
                         label="Display Name"
-                        defaultValue={props.displayname}
+                        value={displayName}
                         variant="standard"
                         className='my-info-text'
+                        onChange={handleChange}
                     />
-                    <Typography variant='h6' className='my-info-extra'>Note: Email cannot be changed.</Typography>
-                    <Button type="submit" variant="contained" size="large" className='my-info-action'>Save</Button>
+                    <Typography variant='h6' className='my-info-extra'>Note: Email/Password cannot<br/>be changed at the moment.</Typography>
+                    <Button type="submit" variant="contained" size="large" className='my-info-action' onClick={updateDisplayName}>Save</Button>
                 </form>
             </div>
         </div>
