@@ -1,5 +1,5 @@
 import stringAvatar from '../../../utility/stringAvatar';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
@@ -7,11 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import DataContext from '../../../DataContext';
 
 
 const UserAvatar = (props) => {
     const settings = props.options;
     const navigate = useNavigate();
+    const {user} = useContext(DataContext)
 
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -25,7 +27,7 @@ const UserAvatar = (props) => {
 
     const handleOption = (setting) => {
         if (setting === 'Profile'){
-            navigate("/profile")
+            navigate(`/profile/${user.userId}`)
         } else if (setting === 'Logout') {
             navigate("/")
         }

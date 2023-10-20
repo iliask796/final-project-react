@@ -51,8 +51,8 @@ function App() {
       <DataContext.Provider value = {{ user, workspace, tasklists }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/workspace" element={<Workspace />} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/workspace/:id" element={<Workspace />} />
+          <Route path="/profile/:id" element={<Profile/>} />
         </Routes>
       </DataContext.Provider>
     </div>
