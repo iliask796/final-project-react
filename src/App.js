@@ -11,6 +11,7 @@ function App() {
   const [userLoad, setUserLoad] = useState(false)
   const [workspace, setWorkspace] = useState(null)
   const [tasklists, setTasklists] = useState(null)
+  const [renderTasklists, setRenderTasklists] = useState(0)
 
   async function getUser() {
     const response = await fetch('http://localhost:4000/users/1')
@@ -44,11 +45,15 @@ function App() {
     if (userLoad){
       getWorkspaceData()
     }
-  },[userLoad])
+  },[userLoad, renderTasklists])
+
+  const doRenderTasklists = () => {
+    setRenderTasklists(renderTasklists + 1)
+  }
 
   return (
     <div className='app'>
-      <DataContext.Provider value = {{ user, workspace, tasklists }}>
+      <DataContext.Provider value = {{ user, workspace, tasklists,  doRenderTasklists}}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/workspace/:id" element={<Workspace />} />
