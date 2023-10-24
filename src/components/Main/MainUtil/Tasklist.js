@@ -12,17 +12,54 @@ import Popover from '@mui/material/Popover';
 import Paper from '@mui/material/Paper';
 import Fab from '@mui/material/Fab';
 import DataContext from '../../../DataContext';
+import swapElements from '../../../utility/swapElements'
 
 const Tasklist = (props) => {
     const {tasklistId, name, position} = props.list
-    const {doRenderTasklists} = useContext(DataContext)
+    const {doRenderTasklists, tasklists, setTasklists, syncState, setSyncState} = useContext(DataContext)
     const [renderTasks, setRenderTasks] = useState(0)
     const [tasks, setTasks] = useState(null)
+    const [title, setTitle] = useState(name)
+    const [newTitle, setNewTitle] = useState('')
+    const [newDesc, setNewDesc] = useState('')
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const popId = open ? 'simple-popover' : undefined;
 
-    const doRenderTasks = () => {
-        setRenderTasks(renderTasks + 1)
+    const updateTasklist = async () => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: title, position: position})
+        }
+        await fetch(`http://localhost:4000/tasklists/${tasklistId}` , requestOptions)
     }
 
+    const updateTasklistOrder = async (newPos) => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: title, position: newPos})
+        }
+        await fetch(`http://localhost:4000/tasklists/${tasklistId}`, requestOptions)
+    }
+
+    const deleteTasklist = async () => {
+        const requestOptions = {
+            method: 'DELETE',
+        }
+        await fetch(`http://localhost:4000/tasklists/${tasklistId}`, requestOptions)
+    }
+
+    const createTask = async () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: newTitle?newTitle:'New Task', position: tasks.length!==0?(tasks[tasks.length-1].position)+1:1, description: newDesc?newDesc:null})
+        }
+        await fetch(`http://localhost:4000/tasklists/${tasklistId}/tasks` , requestOptions)
+    }
+    
     async function getTasks() {
         const url = 'http://localhost:4000/tasklists/'+ tasklistId +'/tasks'
         const response = await fetch(url)
@@ -38,65 +75,41 @@ const Tasklist = (props) => {
         }
     },[renderTasks])
 
-    const [title, setTitle] = useState(name)
-    const [pos, setPos] = useState(position)
+    const doRenderTasks = () => {
+        setRenderTasks(renderTasks + 1)
+    }
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
     }
 
     const handleLeftShift = () => {
-
+        if (position === 1){
+            return
+        }
+        if (!syncState){
+            setSyncState(true)
+            const thisIndex = tasklists.findIndex(list => list.position === position)
+            const prevPos = tasklists[thisIndex-1].position
+            swapElements(tasklists, thisIndex, prevPos, thisIndex-1, position)
+            setTasklists([...tasklists])
+            updateTasklistOrder(prevPos).then(setSyncState(false))
+        }
     }
 
     const handleRightShift = () => {
-
-    }
-
-    const updateTasklist = async () => {
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: title, position: pos})
+        if (position === tasklists[tasklists.length-1].position){
+            return
+        } 
+        if (!syncState){
+            setSyncState(true)
+            const thisIndex = tasklists.findIndex(list => list.position === position)
+            const nextPos = tasklists[thisIndex+1].position
+            swapElements(tasklists, thisIndex, nextPos, thisIndex+1, position)
+            setTasklists([...tasklists])
+            updateTasklistOrder(nextPos).then(setSyncState(false))
         }
-        await fetch(`http://localhost:4000/tasklists/${tasklistId}` , requestOptions)
     }
-
-    const deleteTasklist = async () => {
-        const requestOptions = {
-            method: 'DELETE',
-        }
-        await fetch(`http://localhost:4000/tasklists/${tasklistId}`, requestOptions)
-    }
-
-    const handleDelete = () => {
-        deleteTasklist()
-        doRenderTasklists()
-    }
-
-    const [newTitle, setNewTitle] = useState('')
-    const [newDesc, setNewDesc] = useState('')
-
-    const createTask = async () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: newTitle?newTitle:'New Task', position: tasks.length+1, description: newDesc?newDesc:''})
-        }
-        await fetch(`http://localhost:4000/tasklists/${tasklistId}/tasks` , requestOptions)
-    }
-
-    const [anchorEl, setAnchorEl] = useState(null);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setNewTitle('')
-        setNewDesc('')
-        setAnchorEl(null);
-    };
 
     const handleCreate = () => {
         createTask()
@@ -106,8 +119,19 @@ const Tasklist = (props) => {
         setAnchorEl(null);
     }
 
-    const open = Boolean(anchorEl);
-    const popId = open ? 'simple-popover' : undefined;
+    const handleDelete = () => {
+        deleteTasklist()
+        doRenderTasklists()
+    }
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setNewTitle('')
+        setNewDesc('')
+        setAnchorEl(null);
+    };
 
     return (
         <div className='list-container-column'>

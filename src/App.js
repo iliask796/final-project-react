@@ -12,6 +12,7 @@ function App() {
   const [workspace, setWorkspace] = useState(null)
   const [tasklists, setTasklists] = useState(null)
   const [renderTasklists, setRenderTasklists] = useState(0)
+  const [syncState, setSyncState] = useState(false)
 
   async function getUser() {
     const response = await fetch('http://localhost:4000/users/1')
@@ -22,18 +23,21 @@ function App() {
     }
   }
 
-  async function getWorkspaceData() {
+  async function getWorkspace() {
     const url = 'http://localhost:4000/workspaces/' + user.workspace.workspaceId
     const response = await fetch(url)
     const json = await response.json()
     if (json.status === 'success'){
       setWorkspace(json.data)
     }
-    const url2 = 'http://localhost:4000/workspaces/' + user.workspace.workspaceId + '/tasklists'
-    const response2 = await fetch(url2)
-    const json2 = await response2.json()
-    if (json2.status === 'success'){
-      setTasklists(json2.data)
+  }
+
+  async function getTasklists() {
+    const url = 'http://localhost:4000/workspaces/' + user.workspace.workspaceId + '/tasklists'
+    const response = await fetch(url)
+    const json = await response.json()
+    if (json.status === 'success'){
+      setTasklists(json.data)
     }
   }
 
@@ -43,7 +47,13 @@ function App() {
 
   useEffect(() => {
     if (userLoad){
-      getWorkspaceData()
+      getWorkspace()
+    }
+  },[userLoad])
+
+  useEffect(() => {
+    if (userLoad){
+      getTasklists()
     }
   },[userLoad, renderTasklists])
 
@@ -53,7 +63,7 @@ function App() {
 
   return (
     <div className='app'>
-      <DataContext.Provider value = {{ user, workspace, tasklists,  doRenderTasklists}}>
+      <DataContext.Provider value = {{ user, workspace, tasklists, setTasklists, doRenderTasklists, syncState, setSyncState}}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/workspace/:id" element={<Workspace />} />
