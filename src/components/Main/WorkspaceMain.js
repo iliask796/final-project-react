@@ -25,7 +25,7 @@ const WorkspaceMain = () => {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: title?title:'New List', position: tasklists.length+1})
+            body: JSON.stringify({name: title?title:'New List', position: tasklists.length!==0?(tasklists[tasklists.length-1].position)+1:1})
         }
         await fetch(`http://localhost:4000/workspaces/${id}/tasklists`, requestOptions)
     }
