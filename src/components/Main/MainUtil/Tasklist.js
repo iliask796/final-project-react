@@ -16,7 +16,7 @@ import swapElements from '../../../utility/swapElements'
 
 const Tasklist = (props) => {
     const {tasklistId, name, position} = props.list
-    const {doRenderTasklists, tasklists, setTasklists} = useContext(DataContext)
+    const {tasklists, setTasklists} = useContext(DataContext)
     const [renderTasks, setRenderTasks] = useState(0)
     const [tasks, setTasks] = useState(null)
     const [title, setTitle] = useState(name)
@@ -113,17 +113,19 @@ const Tasklist = (props) => {
     }
 
     const handleCreate = () => {
-        createTask()
-        doRenderTasks()
+        createTask().then(doRenderTasks())
         setNewTitle('')
         setNewDesc('')
         setAnchorEl(null);
     }
 
     const handleDelete = () => {
+        const deleteIndex = tasklists.findIndex(list => list.tasklistId === tasklistId)
+        tasklists.splice(deleteIndex,1)
+        setTasklists([...tasklists])
         deleteTasklist()
-        doRenderTasklists()
     }
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

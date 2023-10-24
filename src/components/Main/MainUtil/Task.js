@@ -19,6 +19,34 @@ const Task = (props) => {
     const [title, setTitle] = useState(name)
     const [desc, setDesc] = useState(description)
     const [syncState, setSyncState] = useState(false)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const popId = open ? 'simple-popover' : undefined;
+
+    const updateTaskOrder = async (newPos) => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: title, position: newPos, description: desc})
+        }
+        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
+    }
+
+    const updateTask = async () => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: title, position: position, description: desc})
+        }
+        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
+    }
+
+    const deleteTask = async () => {
+        const requestOptions = {
+            method: 'DELETE',
+        }
+        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
+    } 
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
@@ -56,51 +84,22 @@ const Task = (props) => {
         }
     }
 
-    const updateTaskOrder = async (newPos) => {
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: title, position: newPos, description: desc})
-        }
-        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
-    }
-
-    const updateTask = async () => {
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: title, position: position, description: desc})
-        }
-        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
-    }
-
-    const deleteTask = async () => {
-        const requestOptions = {
-            method: 'DELETE',
-        }
-        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
-    }
-
-    const [anchorEl, setAnchorEl] = useState(null);
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
-        updateTask()
-        doRenderTasks()
+        updateTask().then(doRenderTasks())
         setAnchorEl(null);
     };
 
     const handleDelete = () => {
+        const deleteIndex = tasks.findIndex(task => task.taskId === taskId)
+        tasks.splice(deleteIndex,1)
+        setTasks([...tasks])
         deleteTask()
-        doRenderTasks()
         setAnchorEl(null);
     }
-
-    const open = Boolean(anchorEl);
-    const popId = open ? 'simple-popover' : undefined;
 
     return (
         <>
