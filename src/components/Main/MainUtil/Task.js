@@ -7,18 +7,18 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';
 import IconButton from '@mui/material/IconButton';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
+import swapElements from '../../../utility/swapElements';
 
 const Task = (props) => {
     const {taskId, name, description, position} = props.task;
-    const {doRenderTasks} = props
-
+    const {doRenderTasks, tasks, setTasks} = props
     const [title, setTitle] = useState(name)
     const [desc, setDesc] = useState(description)
-    const [pos, setPos] = useState(position)
+    const [syncState, setSyncState] = useState(false)
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
@@ -28,19 +28,48 @@ const Task = (props) => {
         setDesc(event.target.value)
     }
 
-    const handleLeftShift = () => {
-
+    const handleShiftUp = () => {
+        if (position === tasks[0].position){
+            return
+        }
+        if (!syncState){
+            setSyncState(true)
+            const thisIndex = tasks.findIndex(task => task.position === position)
+            const prevPos = tasks[thisIndex-1].position
+            swapElements(tasks, thisIndex, prevPos, thisIndex-1, position)
+            setTasks([...tasks])
+            updateTaskOrder(prevPos).then(setSyncState(false))
+        }
     }
 
-    const handleRightShift = () => {
-        
+    const handleShiftDown = () => {
+        if (position === tasks[tasks.length-1].position){
+            return
+        }
+        if (!syncState){
+            setSyncState(true)
+            const thisIndex = tasks.findIndex(task => task.position === position)
+            const nextPos = tasks[thisIndex+1].position
+            swapElements(tasks, thisIndex, nextPos, thisIndex+1, position)
+            setTasks([...tasks])
+            updateTaskOrder(nextPos).then(setSyncState(false))
+        }
+    }
+
+    const updateTaskOrder = async (newPos) => {
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: title, position: newPos, description: desc})
+        }
+        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
     }
 
     const updateTask = async () => {
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: title, position: pos, description: desc})
+            body: JSON.stringify({name: title, position: position, description: desc})
         }
         await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
     }
@@ -80,11 +109,11 @@ const Task = (props) => {
                 className='list-item'
                 secondaryAction={
                     <>
-                        <IconButton edge="end" aria-label="shift-left" onClick={handleLeftShift}>
-                            <NavigateBeforeIcon className='this-button'/>
+                        <IconButton edge="end" aria-label="shift-up" onClick={handleShiftUp}>
+                            <KeyboardArrowUpIcon fontSize='small'/>
                         </IconButton>
-                        <IconButton edge="end" aria-label="shift-right" onClick={handleRightShift}>
-                            <NavigateNextIcon />
+                        <IconButton edge="end" aria-label="shift-down" onClick={handleShiftDown}>
+                            <KeyboardArrowDownIcon fontSize='small'/>
                         </IconButton>
                     </>
                 }

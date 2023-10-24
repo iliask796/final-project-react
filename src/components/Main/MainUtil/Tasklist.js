@@ -16,12 +16,13 @@ import swapElements from '../../../utility/swapElements'
 
 const Tasklist = (props) => {
     const {tasklistId, name, position} = props.list
-    const {doRenderTasklists, tasklists, setTasklists, syncState, setSyncState} = useContext(DataContext)
+    const {doRenderTasklists, tasklists, setTasklists} = useContext(DataContext)
     const [renderTasks, setRenderTasks] = useState(0)
     const [tasks, setTasks] = useState(null)
     const [title, setTitle] = useState(name)
     const [newTitle, setNewTitle] = useState('')
     const [newDesc, setNewDesc] = useState('')
+    const [syncState, setSyncState] = useState(false)
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const popId = open ? 'simple-popover' : undefined;
@@ -65,7 +66,7 @@ const Tasklist = (props) => {
         const response = await fetch(url)
         const json = await response.json()
         if (json.status === 'success'){
-            setTasks(json.data)
+            setTasks([...json.data])
         }
     }
 
@@ -84,7 +85,7 @@ const Tasklist = (props) => {
     }
 
     const handleLeftShift = () => {
-        if (position === 1){
+        if (position === tasklists[0].position){
             return
         }
         if (!syncState){
@@ -160,7 +161,7 @@ const Tasklist = (props) => {
                 {
                     tasks &&
                     tasks.map((task) =>{
-                        return <Task key={task.taskId} task={task} doRenderTasks={doRenderTasks}/>
+                        return <Task key={task.taskId} task={task} doRenderTasks={doRenderTasks} tasks={tasks} setTasks={setTasks}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list-item" className='list-item-add' onClick={handleClick}>
