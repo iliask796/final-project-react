@@ -13,13 +13,11 @@ import { useParams } from 'react-router-dom';
 
 const WorkspaceMain = () => {
     const { tasklists, setTasklists} = useContext(DataContext)
-
     const [title, setTitle] = useState('')
     const {id} = useParams()
-
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value)
-    }
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const popId = open ? 'simple-popover' : undefined;
 
     const createList = async () => {
         const requestOptions = {
@@ -38,7 +36,9 @@ const WorkspaceMain = () => {
             )
     }
 
-    const [anchorEl, setAnchorEl] = useState(null);
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value)
+    }
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -55,9 +55,6 @@ const WorkspaceMain = () => {
             setAnchorEl(null);
         })  
     }
-
-    const open = Boolean(anchorEl);
-    const popId = open ? 'simple-popover' : undefined;
 
     return (
         tasklists &&

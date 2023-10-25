@@ -102,11 +102,12 @@ const Task = (props) => {
     };
 
     const handleDelete = () => {
-        const deleteIndex = tasks.findIndex(task => task.taskId === taskId)
-        tasks.splice(deleteIndex,1)
-        setTasks([...tasks])
-        deleteTask()
-        setAnchorEl(null);
+        deleteTask().then(() => {
+            const deleteIndex = tasks.findIndex(task => task.taskId === taskId)
+            tasks.splice(deleteIndex,1)
+            setTasks([...tasks])
+            setAnchorEl(null);
+        })  
     }
 
     return (

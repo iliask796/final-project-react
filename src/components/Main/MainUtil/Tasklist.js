@@ -115,21 +115,6 @@ const Tasklist = (props) => {
         }
     }
 
-    const handleCreate = () => {
-        createTask().then(() => {
-            setNewTitle('')
-            setNewDesc('')
-            setAnchorEl(null);
-        })
-    }
-
-    const handleDelete = () => {
-        const deleteIndex = tasklists.findIndex(list => list.tasklistId === tasklistId)
-        tasklists.splice(deleteIndex,1)
-        setTasklists([...tasklists])
-        deleteTasklist()
-    }
-
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -139,6 +124,22 @@ const Tasklist = (props) => {
         setNewDesc('')
         setAnchorEl(null);
     };
+
+    const handleCreate = () => {
+        createTask().then(() => {
+            setNewTitle('')
+            setNewDesc('')
+            setAnchorEl(null);
+        })
+    }
+
+    const handleDelete = () => {
+        deleteTasklist().then(() => {
+            const deleteIndex = tasklists.findIndex(list => list.tasklistId === tasklistId)
+            tasklists.splice(deleteIndex,1)
+            setTasklists([...tasklists])
+        })
+    }
 
     return (
         <div className='list-container-column'>
