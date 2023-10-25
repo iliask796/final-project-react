@@ -12,7 +12,7 @@ import Fab from '@mui/material/Fab';
 import { useParams } from 'react-router-dom';
 
 const WorkspaceMain = () => {
-    const { tasklists, doRenderTasklists } = useContext(DataContext)
+    const { tasklists, setTasklists} = useContext(DataContext)
 
     const [title, setTitle] = useState('')
     const {id} = useParams()
@@ -27,7 +27,15 @@ const WorkspaceMain = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({name: title?title:'New List', position: tasklists.length!==0?(tasklists[tasklists.length-1].position)+1:1})
         }
-        await fetch(`http://localhost:4000/workspaces/${id}/tasklists`, requestOptions)
+        await fetch(`http://localhost:4000/workspaces/${id}/tasklists`, requestOptions).then(
+            response => response.json()).then(
+                dataSet => {
+                    if (dataSet.status === 'success'){
+                        tasklists.push(dataSet.data)
+                        setTasklists([...tasklists])
+                    }
+                }
+            )
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -42,10 +50,10 @@ const WorkspaceMain = () => {
     };
 
     const handleCreate = () => {
-        createList()
-        setTitle('')
-        doRenderTasklists()
-        setAnchorEl(null);
+        createList().then(() => {
+            setTitle('')
+            setAnchorEl(null);
+        })  
     }
 
     const open = Boolean(anchorEl);

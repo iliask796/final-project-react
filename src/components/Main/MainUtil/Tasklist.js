@@ -17,7 +17,6 @@ import swapElements from '../../../utility/swapElements'
 const Tasklist = (props) => {
     const {tasklistId, name, position} = props.list
     const {tasklists, setTasklists} = useContext(DataContext)
-    const [renderTasks, setRenderTasks] = useState(0)
     const [tasks, setTasks] = useState(null)
     const [title, setTitle] = useState(name)
     const [newTitle, setNewTitle] = useState('')
@@ -58,7 +57,15 @@ const Tasklist = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({name: newTitle?newTitle:'New Task', position: tasks.length!==0?(tasks[tasks.length-1].position)+1:1, description: newDesc?newDesc:null})
         }
-        await fetch(`http://localhost:4000/tasklists/${tasklistId}/tasks` , requestOptions)
+        await fetch(`http://localhost:4000/tasklists/${tasklistId}/tasks` , requestOptions).then(
+            response => response.json()).then(
+                dataSet => {
+                    if (dataSet.status === 'success'){
+                        tasks.push(dataSet.data)
+                        setTasks([...tasks])
+                    }
+                }
+            )
     }
     
     async function getTasks() {
@@ -74,11 +81,7 @@ const Tasklist = (props) => {
         if (tasklistId != null){
             getTasks()
         }
-    },[renderTasks])
-
-    const doRenderTasks = () => {
-        setRenderTasks(renderTasks + 1)
-    }
+    })
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
@@ -113,10 +116,11 @@ const Tasklist = (props) => {
     }
 
     const handleCreate = () => {
-        createTask().then(doRenderTasks())
-        setNewTitle('')
-        setNewDesc('')
-        setAnchorEl(null);
+        createTask().then(() => {
+            setNewTitle('')
+            setNewDesc('')
+            setAnchorEl(null);
+        })
     }
 
     const handleDelete = () => {
@@ -163,7 +167,7 @@ const Tasklist = (props) => {
                 {
                     tasks &&
                     tasks.map((task) =>{
-                        return <Task key={task.taskId} task={task} doRenderTasks={doRenderTasks} tasks={tasks} setTasks={setTasks}/>
+                        return <Task key={task.taskId} task={task} tasks={tasks} setTasks={setTasks}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list-item" className='list-item-add' onClick={handleClick}>

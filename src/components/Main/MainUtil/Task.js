@@ -15,7 +15,7 @@ import swapElements from '../../../utility/swapElements';
 
 const Task = (props) => {
     const {taskId, name, description, position} = props.task;
-    const {doRenderTasks, tasks, setTasks} = props
+    const {tasks, setTasks} = props
     const [title, setTitle] = useState(name)
     const [desc, setDesc] = useState(description)
     const [syncState, setSyncState] = useState(false)
@@ -38,7 +38,16 @@ const Task = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({name: title, position: position, description: desc})
         }
-        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
+        await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions).then(
+            response => response.json()).then(
+                dataSet => {
+                    if (dataSet.status === 'success'){
+                        const taskIndex = tasks.findIndex(task => task.taskId === dataSet.data.taskId)
+                        tasks[taskIndex].name = title
+                        tasks[taskIndex].description = desc
+                        setTasks([...tasks])
+                    }
+                })
     }
 
     const deleteTask = async () => {
@@ -89,8 +98,7 @@ const Task = (props) => {
     };
 
     const handleClose = () => {
-        updateTask().then(doRenderTasks())
-        setAnchorEl(null);
+        updateTask().then(setAnchorEl(null))
     };
 
     const handleDelete = () => {
