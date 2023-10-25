@@ -81,7 +81,7 @@ const Tasklist = (props) => {
         if (tasklistId != null){
             getTasks()
         }
-    })
+    },[])
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
