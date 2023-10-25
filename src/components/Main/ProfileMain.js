@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import '../../stylesheets/profile.css'
+import { useParams } from 'react-router-dom';
 
 import stringAvatar from '../../utility/stringAvatar'
 import Avatar from '@mui/material/Avatar';
@@ -9,6 +10,7 @@ import Button from '@mui/material/Button';
 
 const ProfileMain = (props) => {
     const [displayName, setDisplayName] = useState(props.displayname)
+    const {id} = useParams()
 
     const handleChange = (event) => {
         setDisplayName(event.target.value)
@@ -20,7 +22,7 @@ const ProfileMain = (props) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({email: props.email, password: props.password, displayName: displayName})
         }
-        await fetch('http://localhost:4000/users/1', requestOptions)
+        await fetch(`http://localhost:4000/users/${id}`, requestOptions)
     }
 
     return (
