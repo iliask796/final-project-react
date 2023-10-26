@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 
 import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
@@ -16,8 +16,8 @@ import swapElements from '../../../utility/swapElements'
 
 const Tasklist = (props) => {
     const {tasklistId, name, position} = props.list
-    const {tasklists, setTasklists} = useContext(DataContext)
-    const [tasks, setTasks] = useState(null)
+    const {listOfTasks} = props
+    const {tasklists, setTasklists, tasks, setTasks} = useContext(DataContext)
     const [title, setTitle] = useState(name)
     const [newTitle, setNewTitle] = useState('')
     const [newDesc, setNewDesc] = useState('')
@@ -67,21 +67,6 @@ const Tasklist = (props) => {
                 }
             )
     }
-    
-    async function getTasks() {
-        const url = 'http://localhost:4000/tasklists/'+ tasklistId +'/tasks'
-        const response = await fetch(url)
-        const json = await response.json()
-        if (json.status === 'success'){
-            setTasks([...json.data])
-        }
-    }
-
-    useEffect(() => {
-        if (tasklistId != null){
-            getTasks()
-        }
-    },[])
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
@@ -166,9 +151,9 @@ const Tasklist = (props) => {
                 }
             >
                 {
-                    tasks &&
-                    tasks.map((task) =>{
-                        return <Task key={task.taskId} task={task} tasks={tasks} setTasks={setTasks}/>
+                    listOfTasks &&
+                    listOfTasks.map((task) =>{
+                        return <Task key={task.taskId} task={task} listOfTasks={listOfTasks}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list-item" className='list-item-add' onClick={handleClick}>

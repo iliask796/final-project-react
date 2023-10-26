@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useContext, useState} from 'react'
 
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,10 +12,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 import swapElements from '../../../utility/swapElements';
+import DataContext from '../../../DataContext';
 
 const Task = (props) => {
     const {taskId, name, description, position} = props.task;
-    const {tasks, setTasks} = props
+    const {tasklistId} = props.task.tasklist
+    const {listOfTasks} = props
+    const {tasklists, tasks, setTasks} = useContext(DataContext)
     const [title, setTitle] = useState(name)
     const [desc, setDesc] = useState(description)
     const [syncState, setSyncState] = useState(false)
@@ -56,6 +59,27 @@ const Task = (props) => {
         }
         await fetch(`http://localhost:4000/tasks/${taskId}`, requestOptions)
     } 
+    
+    const moveTask = async (id, listId) => {
+        const requestOptions = {
+            method: 'PUT',
+        }
+        await fetch(`http://localhost:4000/tasks/${id}/move/${listId}`, requestOptions).then(
+            response => response.json()).then(
+                dataSet => {
+                    if (dataSet.status === 'success'){
+                        const tasksWithUpdate = tasks.map(task => {
+                            if (task.taskId === id){
+                                task.tasklist.tasklistId = listId
+                                task.position = dataSet.data.position
+                            }
+                            return task
+                        })
+                        tasksWithUpdate.sort((task1,task2) => task1.position - task2.position)
+                        setTasks([...tasksWithUpdate])
+                    }
+                })
+    }
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
@@ -66,28 +90,34 @@ const Task = (props) => {
     }
 
     const handleShiftUp = () => {
-        if (position === tasks[0].position){
+        if (position === listOfTasks[0].position){
             return
         }
         if (!syncState){
             setSyncState(true)
-            const thisIndex = tasks.findIndex(task => task.position === position)
-            const prevPos = tasks[thisIndex-1].position
-            swapElements(tasks, thisIndex, prevPos, thisIndex-1, position)
+            const thisIndexFromList = listOfTasks.findIndex(task => task.position === position)
+            const prevTaskId = listOfTasks[thisIndexFromList-1].taskId
+            const prevIndexFromTasks = tasks.findIndex(task => task.taskId === prevTaskId)
+            const prevPos = tasks[prevIndexFromTasks].position
+            const thisIndexFromTasks = tasks.findIndex(task => task.taskId === taskId)
+            swapElements(tasks, thisIndexFromTasks, prevPos, prevIndexFromTasks, position)
             setTasks([...tasks])
             updateTaskOrder(prevPos).then(setSyncState(false))
         }
     }
 
     const handleShiftDown = () => {
-        if (position === tasks[tasks.length-1].position){
+        if (position === listOfTasks[listOfTasks.length-1].position){
             return
         }
         if (!syncState){
             setSyncState(true)
-            const thisIndex = tasks.findIndex(task => task.position === position)
-            const nextPos = tasks[thisIndex+1].position
-            swapElements(tasks, thisIndex, nextPos, thisIndex+1, position)
+            const thisIndexFromList = listOfTasks.findIndex(task => task.position === position)
+            const nextTaskId = listOfTasks[thisIndexFromList+1].taskId
+            const nextIndexFromTasks = tasks.findIndex(task => task.taskId === nextTaskId)
+            const nextPos = tasks[nextIndexFromTasks].position
+            const thisIndexFromTasks = tasks.findIndex(task => task.taskId === taskId)
+            swapElements(tasks, thisIndexFromTasks, nextPos, nextIndexFromTasks, position)
             setTasks([...tasks])
             updateTaskOrder(nextPos).then(setSyncState(false))
         }
@@ -100,6 +130,32 @@ const Task = (props) => {
     const handleClose = () => {
         updateTask().then(setAnchorEl(null))
     };
+
+    const handleMoveLeft = () => {
+        if (tasklistId === tasklists[0].tasklistId){
+            setAnchorEl(null)
+            return
+        }
+        if (!syncState){
+            setSyncState(true)
+            const thisIndex = tasklists.findIndex(list => list.tasklistId === tasklistId)
+            const prevListId = tasklists[thisIndex-1].tasklistId
+            moveTask(taskId, prevListId).then(setSyncState(false))
+        }
+    }
+
+    const handleMoveRight = () => {
+        if (tasklistId === tasklists[tasklists.length-1].tasklistId){
+            setAnchorEl(null)
+            return
+        }
+        if (!syncState){
+            setSyncState(true)
+            const thisIndex = tasklists.findIndex(list => list.tasklistId === tasklistId)
+            const nextListId = tasklists[thisIndex+1].tasklistId
+            moveTask(taskId, nextListId).then(setSyncState(false))
+        }
+    }
 
     const handleDelete = () => {
         deleteTask().then(() => {
@@ -154,6 +210,12 @@ const Task = (props) => {
                 <Paper elevation={3} sx={{p: 1, display:'flex', alignItems: 'center', justifyContent:'center'}}>
                     <TextField id="outlined-basic-1" label="Title" value={title} multiline variant="outlined" sx={{m:0.5}} onChange={handleTitleChange}/>
                     <TextField id="outlined-basic-2" label="Description" value={desc?desc:''} multiline variant="outlined" sx={{m:0.5}} onChange={handleDescChange}/>
+                    <Fab onClick={handleMoveLeft} color='success' variant='extended' aria-label="move-left" sx={{m:0.5, backgroundColor: "#00A36C"}}>
+                        Move Left
+                    </Fab>
+                    <Fab onClick={handleMoveRight} color='success' variant='extended' aria-label="move-right" sx={{m:0.5, backgroundColor: "#00A36C"}}>
+                        Move Right
+                    </Fab>
                     <Fab onClick={handleDelete} color='success' variant='extended' aria-label="delete" sx={{m:0.5, backgroundColor: "#00A36C"}}>
                         Delete
                     </Fab>

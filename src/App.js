@@ -11,6 +11,7 @@ function App() {
   const [userLoad, setUserLoad] = useState(false)
   const [workspace, setWorkspace] = useState(null)
   const [tasklists, setTasklists] = useState(null)
+  const [tasks, setTasks] = useState(null)
 
   async function getUser() {
     const response = await fetch('http://localhost:4000/users/1')
@@ -39,6 +40,15 @@ function App() {
     }
   }
 
+  async function getTasks() {
+    const url = 'http://localhost:4000/tasks'
+    const response = await fetch(url)
+    const json = await response.json()
+    if (json.status === 'success'){
+        setTasks([...json.data])
+    }
+  }
+
   useEffect(() => {
     getUser()
   },[])
@@ -55,9 +65,13 @@ function App() {
     }
   },[userLoad])
 
+  useEffect(() => {
+    getTasks()
+  },[])
+
   return (
     <div className='app'>
-      <DataContext.Provider value = {{ user, workspace, tasklists, setTasklists}}>
+      <DataContext.Provider value = {{ user, workspace, tasklists, setTasklists, tasks, setTasks}}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/workspace/:id" element={<Workspace />} />

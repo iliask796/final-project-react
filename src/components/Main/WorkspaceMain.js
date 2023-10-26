@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import '../../stylesheets/workspace.css'
 
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +12,7 @@ import Fab from '@mui/material/Fab';
 import { useParams } from 'react-router-dom';
 
 const WorkspaceMain = () => {
-    const { tasklists, setTasklists} = useContext(DataContext)
+    const { tasklists, setTasklists, tasks} = useContext(DataContext)
     const [title, setTitle] = useState('')
     const {id} = useParams()
     const [anchorEl, setAnchorEl] = useState(null);
@@ -36,6 +36,7 @@ const WorkspaceMain = () => {
             )
     }
 
+
     const handleTitleChange = (event) => {
         setTitle(event.target.value)
     }
@@ -58,11 +59,13 @@ const WorkspaceMain = () => {
 
     return (
         tasklists &&
+        tasks &&
         <div className='workspace'>
             <div className='list-container'>
                 {
                     tasklists.map((list) => {
-                        return <Tasklist key={list.tasklistId} list={list}/>
+                        const listOfTasks = tasks.filter(task => task.tasklist.tasklistId === list.tasklistId)
+                        return <Tasklist key={list.tasklistId} list={list} listOfTasks={listOfTasks}/>
                     })
                 }
                 <IconButton edge="end" aria-label="add-list" className='list-add' onClick={handleClick}>
