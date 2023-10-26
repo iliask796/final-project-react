@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import Workspace from "./pages/Workspace"
 import Profile from "./pages/Profile"
 import { useEffect, useState } from "react";
-import DataContext from "./DataContext";
+import DataContext from "./utility/DataContext";
 
 function App() {
   const [user, setUser] = useState(null)

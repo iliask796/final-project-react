@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import WorkspaceHeader from '../components//Headers/WorkspaceHeader'
 import WorkspaceMain from '../components/Main/WorkspaceMain'
-import DataContext from '../DataContext'
+import DataContext from '../utility/DataContext'
 
 const Workspace = () => {
     const { user, workspace } = useContext(DataContext)

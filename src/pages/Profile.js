@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import DefaultHeader from '../components/Headers/DefaultHeader'
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import ProfileMain from '../components/Main/ProfileMain';
-import DataContext from '../DataContext';
+import DataContext from '../utility/DataContext';
 
 const Profile = () => {
     const {user} = useContext(DataContext)

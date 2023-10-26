@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import DataContext from '../../../DataContext';
+import DataContext from '../../../utility/DataContext';
 
 
 const UserAvatar = (props) => {

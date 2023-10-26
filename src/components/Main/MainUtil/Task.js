@@ -12,7 +12,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 import swapElements from '../../../utility/swapElements';
-import DataContext from '../../../DataContext';
+import DataContext from '../../../utility/DataContext';
 
 const Task = (props) => {
     const {taskId, name, description, position} = props.task;
