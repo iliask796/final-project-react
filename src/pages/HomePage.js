@@ -6,7 +6,7 @@ import HomeMain from '../components/Main/HomeMain';
 const HomePage = () => {
     return (
         <>
-            <DefaultHeader name={"Login"} icon={<LoginIcon />}/>
+            <DefaultHeader name={"Login"} icon={<LoginIcon />} location={'/user/1/workspaces'}/>
             <HomeMain />
         </>
     )

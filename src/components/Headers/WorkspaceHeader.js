@@ -5,11 +5,11 @@ import WorkspaceInfo from './HeaderUtil/WorkspaceInfo';
 
 const WorkspaceHeader = (props) => {
     return (
-    <div className='header'>
-        <HeaderLogo />
-        <WorkspaceInfo title={props.projectName} date={props.dueDate}/>
-        <UserAvatar displayname={props.displayname} options={['Profile', 'Logout']} />
-    </div>
+        <div className='header'>
+            <HeaderLogo />
+            <WorkspaceInfo title={props.projectName} date={props.dueDate}/>
+            <UserAvatar displayname={props.displayname} options={['Profile', 'Workspaces', 'Logout']} />
+        </div>
     )
 }
 

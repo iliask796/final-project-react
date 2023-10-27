@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import convertDate from '../../../utility/convertDate'
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -9,31 +9,41 @@ import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
+import { useParams } from 'react-router-dom';
+import DataContext from '../../../utility/DataContext';
 
-const WorkspaceInfo = (props) => {
-    const [title, setTitle] = useState(props.title)
+const WorkspaceInfo = () => {
+    const {id} = useParams()
+    const {workspace, setWorkspace, listOfWorkspaces, setListOfWorkspaces} = useContext(DataContext)
     const [Lock, setLock] = useState(true)
     const [editMode, setEditMode] = useState(false)
-    const [date, setDate] = useState(props.date?dayjs(props.date):dayjs())
 
     const updateProject = async () => {
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: title, dueDate: convertDate(date)})
+            body: JSON.stringify({name: workspace.name, dueDate: workspace.dueDate?convertDate(workspace.dueDate):null})
         }
-        await fetch('http://localhost:4000/workspaces/3', requestOptions)
+        await fetch(`http://localhost:4000/workspaces/${id}`, requestOptions)
     }
-    
+
     const handleEditStart = () => {
         setLock(false)
         setEditMode(true)
     }
 
     const handleEditDone = () => {
-        setLock(true)
-        setEditMode(false)
-        updateProject()
+        const thisIndex = listOfWorkspaces.findIndex(thisWorkspace => thisWorkspace.workspaceId === workspace.workspaceId)
+        listOfWorkspaces[thisIndex] = {
+            workspaceId: workspace.workspaceId,
+            name: workspace.name,
+            dueDate: workspace.dueDate
+        }
+        updateProject().then(() => {
+            setListOfWorkspaces([...listOfWorkspaces])
+            setLock(true)
+            setEditMode(false)
+        })
     }
 
     return (
@@ -42,19 +52,19 @@ const WorkspaceInfo = (props) => {
                 <TextField 
                     label = 'Title' 
                     variant="outlined" 
-                    value={title} 
+                    value={workspace.name} 
                     disabled={Lock} 
                     size='Normal' 
-                    onChange={(event) => {setTitle(event.target.value)}} 
+                    onChange={(event) => setWorkspace({...workspace,name:event.target.value})}
                     className='project-name'/>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker 
                         className='project-date'
                         label={"Due Date"} 
                         sx = {{svg: {color: '#0F52BA'}}}
-                        value={date}
+                        value={workspace.dueDate?dayjs(workspace.dueDate):dayjs()}
                         disabled={Lock}
-                        onChange={(newDate) => {setDate(newDate)}}
+                        onChange={(newDate) => setWorkspace({...workspace, dueDate: newDate})}
                     />
                 </LocalizationProvider>
                 {

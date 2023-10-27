@@ -24,7 +24,7 @@
 }
 
 .header > .workspace-info {
-    width: 70%;
+    width: fit-content;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

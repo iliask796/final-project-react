@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 function convertDate(date) {
     const timezone = 'Europe/Athens'
-    const myFormat = 'M-D-YYYY'
+    const myFormat = 'MM-DD-YYYY'
     return dayjs(date).format(myFormat, { timezone })
 }
 

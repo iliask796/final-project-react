@@ -69,6 +69,9 @@ const Tasklist = (props) => {
     }
 
     const handleTitleChange = (event) => {
+        const thisIndex = tasklists.findIndex(list => list.tasklistId === tasklistId)
+        tasklists[thisIndex].name = event.target.value
+        setTasklists([...tasklists])
         setTitle(event.target.value)
     }
 

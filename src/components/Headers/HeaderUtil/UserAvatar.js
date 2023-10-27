@@ -13,7 +13,7 @@ import DataContext from '../../../utility/DataContext';
 const UserAvatar = (props) => {
     const settings = props.options;
     const navigate = useNavigate();
-    const {user} = useContext(DataContext)
+    const {user, setCurrentWorkspaceId} = useContext(DataContext)
 
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -28,6 +28,9 @@ const UserAvatar = (props) => {
     const handleOption = (setting) => {
         if (setting === 'Profile'){
             navigate(`/profile/${user.userId}`)
+        } else if (setting === 'Workspaces') {
+            navigate("/user/1/workspaces")
+            setCurrentWorkspaceId(null)
         } else if (setting === 'Logout') {
             navigate("/")
         }
@@ -56,7 +59,7 @@ const UserAvatar = (props) => {
             >
                 {settings.map((setting) => (
                 <MenuItem key={setting} onClick={() => handleOption(setting)}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    <Typography sx={{width:'100%'}} textAlign="center">{setting}</Typography>
                 </MenuItem>
                 ))}
             </Menu>

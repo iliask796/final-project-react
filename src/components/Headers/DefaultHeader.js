@@ -3,15 +3,12 @@ import '../../stylesheets/header.css'
 import Button from '@mui/material/Button/Button'
 import HeaderLogo from './HeaderUtil/HeaderLogo';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
-import DataContext from '../../utility/DataContext';
 
 const DefaultHeader = (props) => {
   const navigate = useNavigate()
-  const {user} = useContext(DataContext)
 
   const handleClick = () => {
-    navigate(`/workspace/${user.workspace.workspaceId}`)
+    navigate(props.location)
   }
 
   return (
