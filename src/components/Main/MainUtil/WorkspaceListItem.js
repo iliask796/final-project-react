@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { IconButton, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
+import { Box, IconButton, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material'
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import DataContext from '../../../utility/DataContext';
 
@@ -43,9 +44,12 @@ const WorkspaceListItem = (props) => {
         >
             <ListItemButton role={undefined} sx={{height:'100%', borderRadius:'20px'}} dense onClick={handleNavigate}>
                 <ListItemText id={labelId} primary={
-                    <Typography variant='h5'>
-                        {workspace.name}
-                    </Typography>
+                    <Box sx={{display:'flex', flexDirection:'row', gap:'15px'}}>
+                        <FolderOpenIcon fontSize='large'/>
+                        <Typography variant='h5' sx={{marginTop:'3px'}}>
+                            {workspace.name}
+                        </Typography>
+                    </Box>
                 } />
             </ListItemButton>
         </ListItem>
