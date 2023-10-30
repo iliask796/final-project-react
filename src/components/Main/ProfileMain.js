@@ -43,16 +43,6 @@ const ProfileMain = (props) => {
                     />
                     <TextField
                         fullWidth
-                        label="Password"
-                        defaultValue={props.password}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        variant="standard"
-                        className='my-info-text'
-                    />
-                    <TextField
-                        fullWidth
                         required
                         label="Display Name"
                         value={displayName}
@@ -60,7 +50,7 @@ const ProfileMain = (props) => {
                         className='my-info-text'
                         onChange={handleChange}
                     />
-                    <Typography variant='h6' className='my-info-extra'>Note: Email/Password cannot<br/>be changed at the moment.</Typography>
+                    <Typography variant='h6' className='my-info-extra'>Note: Email cannot be <br/>changed at the moment.</Typography>
                     <Button type="submit" variant="contained" size="large" className='my-info-action' onClick={updateDisplayName}>Save</Button>
                 </form>
             </div>
