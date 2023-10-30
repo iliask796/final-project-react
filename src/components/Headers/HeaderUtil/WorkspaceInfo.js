@@ -22,7 +22,7 @@ const WorkspaceInfo = () => {
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: workspace.name, dueDate: workspace.dueDate?convertDate(workspace.dueDate):null})
+            body: JSON.stringify({name: workspace.name, startDate:workspace.startDate?convertDate(workspace.startDate):null, endDate: workspace.endDate?convertDate(workspace.endDate):null})
         }
         await fetch(`http://localhost:4000/workspaces/${id}`, requestOptions)
     }
@@ -37,7 +37,8 @@ const WorkspaceInfo = () => {
         listOfWorkspaces[thisIndex] = {
             workspaceId: workspace.workspaceId,
             name: workspace.name,
-            dueDate: workspace.dueDate
+            startDate: workspace.startDate,
+            endDate: workspace.endDate
         }
         updateProject().then(() => {
             setListOfWorkspaces([...listOfWorkspaces])
@@ -56,15 +57,26 @@ const WorkspaceInfo = () => {
                     disabled={Lock} 
                     size='Normal' 
                     onChange={(event) => setWorkspace({...workspace,name:event.target.value})}
-                    className='project-name'/>
+                    className='project-name'
+                />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker 
                         className='project-date'
-                        label={"Due Date"} 
+                        label={"Start Date"} 
                         sx = {{svg: {color: '#0F52BA'}}}
-                        value={workspace.dueDate?dayjs(workspace.dueDate):dayjs()}
+                        value={workspace.startDate?dayjs(workspace.startDate):dayjs()}
                         disabled={Lock}
-                        onChange={(newDate) => setWorkspace({...workspace, dueDate: newDate})}
+                        onChange={(newDate) => setWorkspace({...workspace, startDate: newDate})}
+                    />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker 
+                        className='project-date'
+                        label={"End Date"} 
+                        sx = {{svg: {color: '#0F52BA'}}}
+                        value={workspace.endDate?dayjs(workspace.endDate):dayjs()}
+                        disabled={Lock}
+                        onChange={(newDate) => setWorkspace({...workspace, endDate: newDate})}
                     />
                 </LocalizationProvider>
                 {

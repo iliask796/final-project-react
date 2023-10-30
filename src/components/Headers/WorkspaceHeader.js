@@ -7,7 +7,7 @@ const WorkspaceHeader = (props) => {
     return (
         <div className='header'>
             <HeaderLogo />
-            <WorkspaceInfo title={props.projectName} date={props.dueDate}/>
+            <WorkspaceInfo />
             <UserAvatar displayname={props.displayname} options={['Profile', 'Workspaces', 'Logout']} />
         </div>
     )
