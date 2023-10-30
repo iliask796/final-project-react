@@ -34,23 +34,23 @@
 .header > .workspace-info > .project {
     display: flex;
     align-items: center;
-    width: 475px;
+    width: 600px;
     gap: 10px;
+    background-color: #f5f5f5;
 }
 
 .header > .workspace-info > .project > .project-name {
-    width: 91%;
+    width: 45%;
+    
 }
 
-.header > .workspace-info > .project-date  {
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    width: 150px;
+.header > .workspace-info > .project > .project-date  {
+    width: 35%;
 }
 
 .header > .workspace-info > .project > .project-action {
     color: #0f52ba;
-    width: 9%;
+    width: 7%;
 }
 
 .header > .workspace-info > .project > .project-action:hover {

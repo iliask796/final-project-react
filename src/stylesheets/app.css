@@ -2,7 +2,8 @@
     margin:0;
     width: 100vw;
     height: 100vh;
-    background-color:#A7C7E7;
+    /* background-color:#A7C7E7; */
+    background-image: url('../utility/images/background.jpg');
 
     display: grid;
     grid-template-areas: 
