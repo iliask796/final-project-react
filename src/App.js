@@ -87,7 +87,7 @@ function App() {
 
   return (
     <div className='app'>
-      <DataContext.Provider value = {{ user, listOfWorkspaces, setListOfWorkspaces, currentWorkspaceId, setCurrentWorkspaceId, workspace, setWorkspace, tasklists, setTasklists, tasks, setTasks}}>
+      <DataContext.Provider value = {{ user, setUser, listOfWorkspaces, setListOfWorkspaces, currentWorkspaceId, setCurrentWorkspaceId, workspace, setWorkspace, tasklists, setTasklists, tasks, setTasks}}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/user/:id/workspaces" element={<UserWorkspaces/>} />

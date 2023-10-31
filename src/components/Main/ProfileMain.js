@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import '../../stylesheets/profile.css'
 import { useParams } from 'react-router-dom';
 
@@ -7,34 +7,39 @@ import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
+import DataContext from '../../utility/DataContext';
 
 const ProfileMain = (props) => {
-    const [displayName, setDisplayName] = useState(props.displayname)
+    const {user, setUser} = useContext(DataContext)
+    const [display, setDisplay] = useState(user.displayName)
     const {id} = useParams()
 
     const handleChange = (event) => {
-        setDisplayName(event.target.value)
+        setDisplay(event.target.value)
     }
 
-    const updateDisplayName = async () => {
+    const updateDisplayName = async (event) => {
+        event.preventDefault()
+        setUser({...user, displayName: display})
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({email: props.email, password: props.password, displayName: displayName})
+            body: JSON.stringify({email: user.email, displayName: user.displayName})
         }
         await fetch(`http://localhost:4000/users/${id}`, requestOptions)
     }
 
     return (
+        user &&
         <div className='profile-main'>
             <div className='profile-tab'>
-                <Avatar {...stringAvatar(props.displayname)} className='my-avatar'/>
+                <Avatar {...stringAvatar(user.displayName)} className='my-avatar'/>
                 <form className='my-info'>
                     <Typography variant='h4' className='my-info-title'>Manage my account</Typography>
                     <TextField
                         fullWidth
                         label="Email"
-                        defaultValue={props.email}
+                        defaultValue={user.email}
                         InputProps={{
                             readOnly: true,
                         }}
@@ -45,7 +50,7 @@ const ProfileMain = (props) => {
                         fullWidth
                         required
                         label="Display Name"
-                        value={displayName}
+                        value={display}
                         variant="standard"
                         className='my-info-text'
                         onChange={handleChange}

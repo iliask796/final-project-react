@@ -11,7 +11,7 @@ const Profile = () => {
         user &&
         <>
             <DefaultHeader name={"Back to Workspace"} icon={<WorkspacesIcon />} location={'/workspace/3'} />
-            <ProfileMain email={user.email} password={user.password} displayname={user.displayName}/>
+            <ProfileMain />
         </>
     )
 }
